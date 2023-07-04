@@ -1,5 +1,3 @@
-// server.js
-
 require("dotenv").config();
 const http = require("http");
 const { handleRequest } = require("./modules/handlers");
@@ -27,7 +25,9 @@ if (cluster.isMaster) {
     cluster.fork();
   });
 } else {
-  const server = http.createServer(handleRequest);
+  const server = http.createServer((req, res) => {
+    handleRequest(req, res);
+  });
 
   const PORT = process.env.PORT || 3000;
 
